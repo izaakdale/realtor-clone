@@ -13,13 +13,13 @@ export default function Header() {
 
   function styleMenuButton(route) {
     return `cursor-pointer py-3 text-sm font-semibold text-gray-400 border-b-[3px] border-b-transparent ${
-      pathMatchRoute(route) && 'text-black border-b-red-500'
+      pathMatchRoute(route) && 'text-black border-b-red-400'
     }`;
   }
 
   return (
     <div className='bg-white border-bottom-b shadow-sm sticky top-0 z-50'>
-      <header className='flex justify-between items-center px-3 max-w-6xl mx-auto'>
+      <header className='flex justify-between items-center px-3 max-w-6xl mx-auto h-12'>
         <div>
           <img
             src='https://static.rdc.moveaws.com/images/logos/rdc-logo-default.svg'
