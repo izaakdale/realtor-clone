@@ -48,6 +48,7 @@ export default function SignUp() {
       // toast.success('Welcome to realtor-clone!');
       navigate('/');
     } catch (error) {
+      console.log(error);
       toast.error('registration issue');
     }
   }
