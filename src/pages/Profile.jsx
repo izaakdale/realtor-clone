@@ -1,19 +1,46 @@
-import { getAuth } from 'firebase/auth';
+import { getAuth, updateProfile } from 'firebase/auth';
+import { doc, updateDoc } from 'firebase/firestore';
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router';
+import { toast } from 'react-toastify';
+import { db } from '../auth/firebase';
 
 export default function Profile() {
   const auth = getAuth();
   const navigate = useNavigate();
+
   const [formData, setFormData] = useState({
     name: auth.currentUser.displayName,
     email: auth.currentUser.email,
   });
   const { name, email } = formData;
 
+  const [editActive, setEditActive] = useState(false);
+
   function onSignOutClick(e) {
     auth.signOut();
     navigate('/');
+  }
+
+  function onChange(e) {
+    setFormData((prevState) => ({
+      ...prevState,
+      [e.target.id]: e.target.value,
+    }));
+  }
+
+  async function onSubmit() {
+    try {
+      if (name !== auth.currentUser.displayName) {
+        await updateProfile(auth.currentUser, { displayName: name });
+      }
+
+      const docRef = doc(db, 'users', auth.currentUser.uid);
+      await updateDoc(docRef, { name });
+      toast.success('profile updated');
+    } catch (error) {
+      toast.error('error updating profile');
+    }
   }
 
   return (
@@ -26,20 +53,30 @@ export default function Profile() {
               type='text'
               id='name'
               value={name}
-              disabled={true}
-              className='mb-6 w-full px-4 py-2 text-xl text-gray-700 bg-white border-gray-300 rounded transition ease-in-out duration-200'
+              disabled={!editActive}
+              onChange={onChange}
+              className={`mb-6 w-full px-4 py-2 text-xl text-gray-400 bg-white border-gray-300 rounded transition ease-in-out duration-200 ${
+                editActive && 'bg-red-100 text-gray-700'
+              }`}
             />
             <input
               type='text'
               id='email'
               value={email}
-              disabled={true}
-              className='mb-6 w-full px-4 py-2 text-xl text-gray-700 bg-white border-gray-300 rounded transition ease-in-out duration-200'
+              disabled
+              onChange={onChange}
+              className={`mb-6 w-full px-4 py-2 text-xl text-gray-400 bg-white border-gray-300 rounded transition ease-in-out duration-200`}
             />
 
             <div className='flex justify-between text-sm'>
-              <p className='text-red-500 hover:text-red-700 cursor-pointer'>
-                <span>Edit?</span>
+              <p
+                onClick={() => {
+                  editActive && onSubmit();
+                  setEditActive(!editActive);
+                }}
+                className='text-red-500 hover:text-red-700 cursor-pointer'
+              >
+                <span>{editActive ? 'Apply changes' : 'Edit?'}</span>
               </p>
               <p
                 onClick={onSignOutClick}
