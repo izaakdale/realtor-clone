@@ -1,9 +1,9 @@
 import React from 'react';
 import Moment from 'react-moment';
 import { Link } from 'react-router-dom';
-import { FaLocationDot } from 'react-icons/fa6';
+import { FaLocationDot, FaTrash, FaPencil } from 'react-icons/fa6';
 
-export default function ListingItem({ listing, id }) {
+export default function ListingItem({ listing, id, onDelete, onEdit }) {
   return (
     <li className='relative bg-white flex flex-col justify-between items-center shadow-md hover:shadow-xl rounded-md overflow-hidden transition-shadow m-[10px]'>
       <Link className='contents' to={`/category/${listing.type}/${id}`}>
@@ -54,6 +54,18 @@ export default function ListingItem({ listing, id }) {
           </div>
         </div>
       </Link>
+      {onDelete && (
+        <FaTrash
+          className='absolute right-2 bottom-2 cursor-pointer text-red-700'
+          onClick={() => onDelete(listing.id)}
+        />
+      )}
+      {onEdit && (
+        <FaPencil
+          className='absolute right-8 bottom-2 cursor-pointer text-blue-700'
+          onClick={() => onEdit(listing.id)}
+        />
+      )}
     </li>
   );
 }
