@@ -17,7 +17,7 @@ export default function CreateListing() {
   const auth = getAuth();
   const navigate = useNavigate();
 
-  const [geoLocationEnabled, setGeoLocationEnabled] = useState(true);
+  const geoLocationEnabled = true;
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
     type: 'rent',
@@ -91,6 +91,7 @@ export default function CreateListing() {
 
     let geolocation = {};
     let location;
+    let formattedAddress;
     if (geoLocationEnabled) {
       const resp = await fetch(
         `https://maps.googleapis.com/maps/api/geocode/json?address=${address}&key=${process.env.REACT_APP_GEOCODE_API_KEY}`
@@ -99,6 +100,8 @@ export default function CreateListing() {
 
       geolocation.lat = data.results[0]?.geometry.location.lat ?? 0;
       geolocation.lng = data.results[0]?.geometry.location.lng ?? 0;
+
+      formattedAddress = data.results[0]?.formatted_address;
 
       location = data.status === 'ZERO_RESULTS' && undefined;
 
@@ -132,6 +135,9 @@ export default function CreateListing() {
               case 'running':
                 console.log('Upload is running');
                 break;
+              default:
+                console.log('Upload should not reach here!');
+                break;
             }
           },
           (error) => {
@@ -161,6 +167,8 @@ export default function CreateListing() {
       timestamp: serverTimestamp(),
       userRef: auth.currentUser.uid,
     };
+
+    formDataCopy.address = formattedAddress;
 
     delete formDataCopy.images;
     !formDataCopy.offer && delete formDataCopy.discountedPrice;
