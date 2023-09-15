@@ -15,6 +15,7 @@ import { FaBath, FaBed, FaCouch, FaParking, FaShareAlt } from 'react-icons/fa';
 import { FaLocationDot } from 'react-icons/fa6';
 import { getAuth } from 'firebase/auth';
 import Contact from '../components/Contact';
+import { MapContainer, Marker, Popup, TileLayer } from 'react-leaflet';
 
 export default function Listing() {
   const auth = getAuth();
@@ -87,7 +88,7 @@ export default function Listing() {
         </div>
       </div>
 
-      <div className='flex flex-col md:flex-row max-w-6xl m-4 lg:mx-auto p-4 rounded-lg shadow-lg bg-white lg:space-x-5'>
+      <div className='flex flex-col md:flex-row max-w-6xl m-4 lg:mx-auto p-4 rounded-lg shadow-lg bg-white lg:space-x-5 md:space-x-2'>
         <div className='w-full mb-4 md:mb-0 flex flex-col justify-between'>
           <div className='w-full mr-2'>
             <div className='mb-2 flex-row text-xl font-semibold'>
@@ -188,7 +189,26 @@ export default function Listing() {
             </div>
           )}
         </div>
-        <div className='bg-red-600 w-full h-[200px] lg:h-[300px] z-10 overflow-x-hidden'></div>
+        <div className='w-full h-[200px] md:h-[300px] z-10 overflow-x-hidden rounded-lg shadow-md'>
+          <MapContainer
+            center={[listing.geolocation.lat, listing.geolocation.lng]}
+            zoom={13}
+            scrollWheelZoom={false}
+            style={{ height: '100%', width: '100%' }}
+          >
+            <TileLayer
+              attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+              url='https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
+            />
+            <Marker
+              position={[listing.geolocation.lat, listing.geolocation.lng]}
+            >
+              <Popup>
+                A pretty CSS3 popup. <br /> Easily customizable.
+              </Popup>
+            </Marker>
+          </MapContainer>
+        </div>
       </div>
     </main>
   );
