@@ -12,8 +12,10 @@ import { toast } from 'react-toastify';
 import { db } from '../auth/firebase';
 import Spinner from '../components/Spinner';
 import ListingItem from '../components/ListingItem';
+import { useParams } from 'react-router';
 
 export default function Offers() {
+  const params = useParams();
   const [loading, setLoading] = useState(true);
   const [listings, setListings] = useState(null);
   const [lastFetchedListing, setLastFetchedListing] = useState(null);
@@ -24,7 +26,7 @@ export default function Offers() {
         const listingsRef = collection(db, 'listings');
         const q = query(
           listingsRef,
-          where('type', '==', 'sale'),
+          where('type', '==', params.categoryName),
           orderBy('timestamp', 'desc'),
           limit(8)
         );
@@ -52,7 +54,7 @@ export default function Offers() {
       const listingsRef = collection(db, 'listings');
       const q = query(
         listingsRef,
-        where('type', '==', 'sale'),
+        where('type', '==', params.categoryName),
         orderBy('timestamp', 'desc'),
         startAfter(lastFetchedListing),
         limit(4)
@@ -83,7 +85,14 @@ export default function Offers() {
       <div className='max-w-6xl mx-auto space-y-6'>
         {listings && listings.length > 0 ? (
           <div className=''>
-            <h2 className='text-3xl font-semibold mx-1 text-center'>Sales</h2>
+            {params.categoryName === 'rent' && (
+              <h2 className='text-3xl font-semibold mx-1 text-center'>
+                Rentals
+              </h2>
+            )}{' '}
+            {params.categoryName === 'sale' && (
+              <h2 className='text-3xl font-semibold mx-1 text-center'>Sales</h2>
+            )}
             <ul className='sm:grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 mt-4'>
               {listings.map((listing) => (
                 <ListingItem

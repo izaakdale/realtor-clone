@@ -12,8 +12,7 @@ import PrivateRoute from './components/PrivateRoute';
 import CreateListing from './pages/CreateListing';
 import EditListing from './pages/EditListing';
 import Listing from './pages/Listing';
-import Rentals from './pages/Rentals';
-import Sales from './pages/Sales';
+import Category from './pages/Category';
 
 function App() {
   return (
@@ -35,9 +34,8 @@ function App() {
           <Route path='/edit-listing/:id' element={<PrivateRoute />}>
             <Route path='/edit-listing/:id' element={<EditListing />} />
           </Route>
-          <Route path='/category/rent' element={<Rentals />} />
-          <Route path='/category/sale' element={<Sales />} />
           <Route path='/category/:type/:id' element={<Listing />} />
+          <Route path='/category/:categoryName' element={<Category />} />
         </Routes>
       </Router>
       <ToastContainer
