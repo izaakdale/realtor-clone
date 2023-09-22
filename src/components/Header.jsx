@@ -27,7 +27,7 @@ export default function Header() {
 
   function styleMenuButton(route) {
     return `cursor-pointer py-3 text-sm font-semibold text-gray-400 border-b-[3px] border-b-transparent ${
-      pathMatchRoute(route) && 'text-black border-b-red-500'
+      pathMatchRoute(route) && 'text-gray-950 border-b-red-400'
     }`;
   }
 
