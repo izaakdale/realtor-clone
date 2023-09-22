@@ -5,7 +5,6 @@ import {
   orderBy,
   query,
   startAfter,
-  startAt,
   where,
 } from 'firebase/firestore';
 import React, { useEffect, useState } from 'react';
@@ -13,7 +12,6 @@ import { toast } from 'react-toastify';
 import { db } from '../auth/firebase';
 import Spinner from '../components/Spinner';
 import ListingItem from '../components/ListingItem';
-import { LayersControl } from 'react-leaflet';
 
 export default function Offers() {
   const [loading, setLoading] = useState(true);
