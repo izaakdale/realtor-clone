@@ -47,7 +47,7 @@ export default function Offers() {
       }
     }
     fetchListings();
-  }, []);
+  }, [params.categoryName]);
 
   async function onFetchMoreListings() {
     try {
