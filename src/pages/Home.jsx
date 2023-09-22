@@ -103,7 +103,7 @@ export default function Home() {
               <h2 className='text-2xl mt-6 font-semibold mx-1'>
                 Places for Rent
               </h2>
-              <Link to={'/offers'}>
+              <Link to={'/category/rent'}>
                 <button className=' mx-1 text-sm text-blue-600  cursor-pointer hover:text-blue-800 transition ease-in-out'>
                   Show me more rentals
                 </button>
@@ -126,7 +126,7 @@ export default function Home() {
               <h2 className='text-2xl mt-6 font-semibold mx-1'>
                 Places for Sale
               </h2>
-              <Link to={'/offers'}>
+              <Link to={'/category/sale'}>
                 <button className=' mx-1 text-sm text-blue-600  cursor-pointer hover:text-blue-800 transition ease-in-out'>
                   Show me more places for sale
                 </button>

@@ -47,7 +47,7 @@ export default function Slider() {
 
   return (
     listings && (
-      <div className=''>
+      <div className='cursor-pointer'>
         <Swiper
           slidesPerView={1}
           pagination={{ type: 'progressbar' }}
